@@ -17,18 +17,21 @@ $ ./eosio_build.sh
 
 # BOS Testnet 中继全节点
 $ git clone https://github.com/boscore/bos 
-$ cd eos && git checkout feature/ibc-plugin # 为了结合bos其他功能一起测试，需要把此分支rebase到某个bos的release分支
+$ cd bos && git checkout feature/ibc-plugin-test # 为了结合bos其他功能一起测试，需要把此分支rebase到某个bos的release分支
 # 注释掉 plugins/ibc_plugin/ibc_plugin.cpp 文件中约第39行的 #define PLUGIN_TEST
 $ ./eosio_build.sh
 ```
 
 合约编译
 ``` bash
-$ git clone https://github.com/vonhenry/eosio.contracts
-$ cd eosio.contracts && git checkout feature/ibc
+$ git clone https://github.com/boscore/bos.contracts
+$ cd bos.contracts && git checkout feature/ibc
 $ ./build.sh
 ```
-
+或者直接在bos的 bos.contract-prebuild中找到
+```
+git clone https://github.com/boscore/bos.contract-prebuild
+```
 ### 合约部署
 
 在Kylin测试网和BOS测试网各创建两个账号 ibc2chain555, ibc2token555, ibc2relay555
