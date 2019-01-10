@@ -17,7 +17,7 @@ $ ./eosio_build.sh
 
 # BOS Testnet 中继全节点
 $ git clone https://github.com/boscore/bos 
-$ cd bos && git checkout feature/ibc-plugin-test # 为了结合bos其他功能一起测试，需要把此分支rebase到某个bos的release分支
+$ cd bos && git checkout feature/ibc-plugin # 为了结合bos其他功能一起测试，需要把此分支rebase到某个bos的release分支
 # 注释掉 plugins/ibc_plugin/ibc_plugin.cpp 文件中约第39行的 #define PLUGIN_TEST
 $ ./eosio_build.sh
 ```
@@ -47,6 +47,11 @@ cleos1=cleos -u http://kylin.fn.eosbixin.com
 cleos2=cleos -u http://47.254.82.241
 contract_chain=ibc2chain555
 contract_token=ibc2token555
+
+把两个链的ibc2token555合约设置eosio.code权限
+$cleos1 set account permission ${contract_token} active '{"threshold": 1, "keys":[{"key":"'${token_c_pubkey}'", "weight":1}], "accounts":[{"permission":{"actor":"'${contract_token}'","permission":"eosio.code"},"weight":1}], "waits":[] }' owner -p ${contract_token}
+$cleos2 set account permission ${contract_token} active '{"threshold": 1, "keys":[{"key":"'${token_c_pubkey}'", "weight":1}], "accounts":[{"permission":{"actor":"'${contract_token}'","permission":"eosio.code"},"weight":1}], "waits":[] }' owner -p ${contract_token}
+
 
 $cleos1 push action ${contract_chain} setglobal '[{"lib_depth":170}]' -p ${contract_chain}
 $cleos1 push action ${contract_chain} relay '["add","ibc2relay555"]' -p ${contract_chain}
